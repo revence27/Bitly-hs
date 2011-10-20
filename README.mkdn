@@ -12,6 +12,8 @@ The core function (really an `IO` action) has the signature
 shorten :: Bitly -> String -> IO String
 ```
 
+The `String` in the `IO` that is returned is the shortened URL of the `String` that is passed in as the long URL.
+
 And the `Bitly` data type has the constructor
 
 ```haskell
