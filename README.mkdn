@@ -1,0 +1,46 @@
+Bitly Library for Haskell
+=========================
+This library provides a simple, monadic interface to the [Bit.ly](http://bit.ly/) URL-shortening service.
+It runs version 2.0.1 of [the Bit.ly API](http://api.bit.ly/).
+
+Sample Usage
+------------
+The core function (really an `IO` action) has the signature
+```haskell
+shorten :: Bitly -> String -> IO String
+```
+And the `Bitly` data type has the constructor
+```haskell
+data Bitly = Bitly {login, apiKey :: String}
+```
+This is a sample usage, which is included as `Main.hs` for testing
+
+```haskell
+module Main where
+
+import Bitly
+import System.Environment
+
+promptFor :: String -> IO String
+promptFor str = do
+    putStrLn str
+    getLine
+
+main :: IO ()
+main = do
+    bitlyLogin <- (getEnv "BITLYLOGIN") `catch` (\_ -> promptFor "Bitly login")
+    bitlyKey   <- (getEnv "BITLYKEY") `catch` (\_ -> promptFor "Bitly key")
+    args <- getArgs
+    case args of
+        [u]     -> do
+            got <- shorten (Bitly bitlyLogin bitlyKey) u
+            putStrLn got
+        (x:xs) -> do
+            withArgs [x] main
+            withArgs xs main
+        _      -> fail "Provide the URL as an argument."
+```
+
+TODO
+----
+1.  Make this play all nice and cuddly with Cabal.
