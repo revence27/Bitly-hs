@@ -1,18 +1,23 @@
 Bitly Library for Haskell
 =========================
 This library provides a simple, monadic interface to the [Bit.ly](http://bit.ly/) URL-shortening service.
+
 It runs version 2.0.1 of [the Bit.ly API](http://api.bit.ly/).
 
 Sample Usage
 ------------
 The core function (really an `IO` action) has the signature
+
 ```haskell
 shorten :: Bitly -> String -> IO String
 ```
+
 And the `Bitly` data type has the constructor
+
 ```haskell
 data Bitly = Bitly {login, apiKey :: String}
 ```
+
 This is a sample usage, which is included as `Main.hs` for testing
 
 ```haskell
@@ -40,6 +45,8 @@ main = do
             withArgs xs main
         _      -> fail "Provide the URL as an argument."
 ```
+
+This program shortens URLs that are passed as arguments.
 
 TODO
 ----
